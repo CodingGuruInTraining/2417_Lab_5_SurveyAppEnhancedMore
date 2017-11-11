@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.MainScreenListener {
+public class MainActivity extends AppCompatActivity implements MainFragment.MainScreenListener, ResultsActivity.ResultScreenListener {
 
     // Initialize widget variables.
     TextView mQuestionLabel;
@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
     protected final static String OPT1_KEY = "first order of business";
     protected final static String OPT2_KEY = "there used to be a third option";
     private static final String MAIN_FRAG_TAG = "MAIN FRAGMENT";
+    private static final String RESULT_FRAG_TAG = "RESULTS FRAGMENT";
 
     // Static variables for result keys.
     private static final int RESULT_REQUEST_CODE = 0;
@@ -163,8 +164,39 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
         noCount = 0;
     }
 
-    @Override
-    public void mainLoaded() {
+//    // Needed method to run.
+//    @Override
+//    public void mainLoaded() {
+//
+//    }
 
+    @Override
+    public void surveyAnswered(boolean firstAnswer) {
+        if (firstAnswer) {
+            yesCount++;
+        } else {
+            noCount++;
+        }
+
+        loadResultsFragment();
+    }
+
+    private void loadResultsFragment() {
+        ResultsActivity resultsFragment = ResultsActivity.newInstance(yesCount, noCount, question);
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        ft.add(R.id.results_container, resultsFragment, RESULT_FRAG_TAG);
+        ft.commit();
+    }
+
+    @Override
+    public void resetSurvey(boolean resetCounts) {
+        if (resetCounts) {
+            resetCounts();
+            // todo something else
+        } else {
+            // todo continue with something
+        }
     }
 }

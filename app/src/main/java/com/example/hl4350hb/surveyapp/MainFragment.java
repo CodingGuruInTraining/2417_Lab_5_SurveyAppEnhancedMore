@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -31,13 +32,37 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         TextView surveyQuestion = (TextView) view.findViewById(R.id.survey_questions);
-        // todo finish adding widgets if works
+        Button mYesButton = (Button) view.findViewById(R.id.yes_button);
+        Button mNoButton = (Button) view.findViewById(R.id.no_button);
+        Button mNewButton = (Button) view.findViewById(R.id.create_button);
+
+        // Yes button event listener.
+        mYesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMainScreenListener.surveyAnswered(true);
+            }
+        });
+
+        mNoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMainScreenListener.surveyAnswered(false);
+            }
+        });
+
+        mNewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         return view;
     }
 
     public interface MainScreenListener {
-        void mainLoaded();
+        void surveyAnswered(boolean firstAnswer);
     }
 
     public static MainFragment newInstance() {
