@@ -17,6 +17,10 @@ public class ResultsActivity extends Fragment {
 
     // Static tag for accessing returned Extra.
     public static final String EXTRA_FROM_RESULT = "here is a delicious extra";
+    private static final String RESULT_ARGUMENTS_YES = "all the yeses";
+    private static final String RESULT_ARGUMENTS_NO = "no no no no no";
+    private static final String RESULT_ARGUMENTS_Q = "too many questions";
+
 
     private static int yesCount;
     private static int noCount;
@@ -41,6 +45,24 @@ public class ResultsActivity extends Fragment {
         Button resetBtn = (Button) view.findViewById(R.id.reset_button);
         Button contBtn = (Button) view.findViewById(R.id.continue_button);
 
+// todo make dynamic once passing option values
+        yesView.setText("Total Yes's: " + yesCount);
+        noView.setText("Total No's: " + noCount);
+
+
+        resetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mResultScreenListener.resetSurvey(true);
+            }
+        });
+
+        contBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mResultScreenListener.resetSurvey(false);
+            }
+        });
 
 
         return view;
@@ -55,7 +77,21 @@ public class ResultsActivity extends Fragment {
         yesCount = yes;
         noCount = no;
         question = quest;
+//        final Bundle args = new Bundle();
+//        args.putParcelable(RESULT_ARGUMENTS_YES, yesCount);
+//        args.putParcelable(RESULT_ARGUMENTS_NO, noCount);
+//        args.putParcelable(RESULT_ARGUMENTS_Q, question);
+//        final ResultsActivity fragment = new ResultsActivity();
+//        fragment.setArguments(args);
+
+//        return fragment;
         return new ResultsActivity();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mResultScreenListener = null;
     }
 
 //    @Override

@@ -186,7 +186,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
-        ft.add(R.id.results_container, resultsFragment, RESULT_FRAG_TAG);
+        ft.replace(R.id.main_container, resultsFragment);
+//        ft.add(R.id.results_container, resultsFragment, RESULT_FRAG_TAG);
+        ft.add(android.R.id.content, ResultsActivity.newInstance(yesCount, noCount, question));
+        ft.addToBackStack(RESULT_FRAG_TAG);
         ft.commit();
     }
 
