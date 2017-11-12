@@ -21,6 +21,7 @@ public class MainFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof MainScreenListener) {
+            // Stores reference to main activity.
             mMainScreenListener = (MainScreenListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement MainScreenListener");

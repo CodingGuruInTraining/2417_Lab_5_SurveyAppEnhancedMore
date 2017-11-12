@@ -13,12 +13,6 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.MainScreenListener, ResultsActivity.ResultScreenListener {
 
-    // Initialize widget variables.
-    TextView mQuestionLabel;
-    Button mYesButton;
-    Button mNoButton;
-    Button mNewButton;
-
     // Initialize static variables.
     Integer yesCount;
     Integer noCount;
@@ -48,15 +42,15 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
             yesCount = savedInstanceState.getInt(YES_KEY);
             noCount = savedInstanceState.getInt(NO_KEY);
         } else {
-
-
+            // First time loading steps:
+            // Instantiates fragment.
             MainFragment mainFragment = MainFragment.newInstance();
 
 
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
 
-
+            // Adds fragment to activity to be seen.
             ft.add(R.id.main_container, mainFragment, MAIN_FRAG_TAG);
             ft.commit();
 
@@ -170,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
 //
 //    }
 
+    // Returning function from Main fragment.
     @Override
     public void surveyAnswered(boolean firstAnswer) {
         if (firstAnswer) {
@@ -182,17 +177,29 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
     }
 
     private void loadResultsFragment() {
-        ResultsActivity resultsFragment = ResultsActivity.newInstance(yesCount, noCount, question);
+
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(YES_KEY, yesCount);
+        bundle.putInt(NO_KEY, noCount);
+        // todo add options here too ^
+
+
+        ResultsActivity resultsFragment = ResultsActivity.newInstance();
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-
+        resultsFragment.setArguments(bundle);
         ft.replace(R.id.main_container, resultsFragment);
 //        ft.add(R.id.results_container, resultsFragment, RESULT_FRAG_TAG);
-        ft.add(android.R.id.content, ResultsActivity.newInstance(yesCount, noCount, question));
+
+        resultsFragment = ResultsActivity.newInstance();
+        resultsFragment.setArguments(bundle);
+        ft.add(android.R.id.content, resultsFragment);
         ft.addToBackStack(RESULT_FRAG_TAG);
         ft.commit();
     }
 
+    // Returning function from Results fragment.
     @Override
     public void resetSurvey(boolean resetCounts) {
         if (resetCounts) {

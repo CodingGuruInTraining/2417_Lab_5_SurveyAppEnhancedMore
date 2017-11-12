@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import static com.example.hl4350hb.surveyapp.MainActivity.NO_KEY;
+import static com.example.hl4350hb.surveyapp.MainActivity.YES_KEY;
+
 public class ResultsActivity extends Fragment {
 
     private ResultScreenListener mResultScreenListener;
@@ -26,6 +29,8 @@ public class ResultsActivity extends Fragment {
     private static int noCount;
     private static String question;
 
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -39,6 +44,10 @@ public class ResultsActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_results, container, false);
+
+
+        retrieveValues();
+
 
         TextView yesView = (TextView) view.findViewById(R.id.yeses);
         TextView noView = (TextView) view.findViewById(R.id.noes);
@@ -69,14 +78,19 @@ public class ResultsActivity extends Fragment {
     }
 
 
+    // Interface for sending back info to main.
     public interface ResultScreenListener {
         void resetSurvey(boolean resetCounts);
     }
 
-    public static ResultsActivity newInstance(int yes, int no, String quest) {
-        yesCount = yes;
-        noCount = no;
-        question = quest;
+    public static ResultsActivity newInstance() {
+//        Bundle bundle = getArguments();
+//        if (bundle != null) {
+//            yesCount = bundle.getInt(YES_KEY, 0);
+//        }
+//        yesCount = yes;
+//        noCount = no;
+//        question = quest;
 //        final Bundle args = new Bundle();
 //        args.putParcelable(RESULT_ARGUMENTS_YES, yesCount);
 //        args.putParcelable(RESULT_ARGUMENTS_NO, noCount);
@@ -86,6 +100,14 @@ public class ResultsActivity extends Fragment {
 
 //        return fragment;
         return new ResultsActivity();
+    }
+
+    private void retrieveValues() {
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            yesCount = bundle.getInt(YES_KEY, 0);
+            noCount = bundle.getInt(NO_KEY, 0);
+        }
     }
 
     @Override
