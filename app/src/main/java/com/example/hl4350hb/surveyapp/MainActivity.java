@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
     private static final int RESULT_REQUEST_CODE = 0;
     private static final int SURVEY_REQUEST_CODE = 1;
 
+    protected MainFragment mMainFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,14 +46,14 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
         } else {
             // First time loading steps:
             // Instantiates fragment.
-            MainFragment mainFragment = MainFragment.newInstance();
+            mMainFragment = MainFragment.newInstance();
 
 
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
 
             // Adds fragment to activity to be seen.
-            ft.add(R.id.main_container, mainFragment, MAIN_FRAG_TAG);
+            ft.add(R.id.main_container, mMainFragment, MAIN_FRAG_TAG);
             ft.commit();
 
 
@@ -189,11 +191,15 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         resultsFragment.setArguments(bundle);
-        ft.replace(R.id.main_container, resultsFragment);
+
+//        ft.remove(mMainFragment);
+//        ft.remove(mMainFragment);
+//        ft.commit();
+//        ft.replace(R.id.main_container, resultsFragment);
 //        ft.add(R.id.results_container, resultsFragment, RESULT_FRAG_TAG);
 
-        resultsFragment = ResultsActivity.newInstance();
-        resultsFragment.setArguments(bundle);
+//        resultsFragment = ResultsActivity.newInstance();
+//        resultsFragment.setArguments(bundle);
         ft.add(android.R.id.content, resultsFragment);
         ft.addToBackStack(RESULT_FRAG_TAG);
         ft.commit();
@@ -204,6 +210,14 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
     public void resetSurvey(boolean resetCounts) {
         if (resetCounts) {
             resetCounts();
+
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+
+            mMainFragment = MainFragment.newInstance();
+
+            ft.replace(R.id.main_container, mMainFragment);
+            ft.commit();
             // todo something else
         } else {
             // todo continue with something
