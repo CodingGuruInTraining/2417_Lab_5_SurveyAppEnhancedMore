@@ -200,7 +200,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
 
 //        resultsFragment = ResultsActivity.newInstance();
 //        resultsFragment.setArguments(bundle);
-        ft.add(android.R.id.content, resultsFragment);
+
+        ft.replace(R.id.main_container, resultsFragment);
+
+//        ft.add(android.R.id.content, resultsFragment);
         ft.addToBackStack(RESULT_FRAG_TAG);
         ft.commit();
     }
@@ -208,19 +211,24 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
     // Returning function from Results fragment.
     @Override
     public void resetSurvey(boolean resetCounts) {
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
         if (resetCounts) {
             resetCounts();
 
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
+//            mMainFragment = MainFragment.newInstance();
 
-            mMainFragment = MainFragment.newInstance();
-
-            ft.replace(R.id.main_container, mMainFragment);
-            ft.commit();
+//            ft.replace(R.id.main_container, mMainFragment);
+//            ft.addToBackStack(null);
+//            ft.commit();
             // todo something else
         } else {
             // todo continue with something
         }
+        ft.replace(R.id.main_container, mMainFragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 }
