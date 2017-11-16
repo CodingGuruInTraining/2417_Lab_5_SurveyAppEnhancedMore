@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.MainScreenListener, ResultsActivity.ResultScreenListener {
+public class MainActivity extends AppCompatActivity implements MainFragment.MainScreenListener,
+        ResultsActivity.ResultScreenListener,
+        MainFragment.MainScreenListener2, SurveyActivity.NewSurveyScreenListener {
 
     // Initialize static variables.
     Integer yesCount;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
     protected final static String NO_KEY = "no key goes here";
     protected final static String OPT1_KEY = "first order of business";
     protected final static String OPT2_KEY = "there used to be a third option";
+    protected final static String NEW_SURVEY_KEY = "the key to the survey of all surveys";
     private static final String MAIN_FRAG_TAG = "MAIN FRAGMENT";
     private static final String RESULT_FRAG_TAG = "RESULTS FRAGMENT";
 
@@ -215,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
+        // Reset the scores.
         if (resetCounts) {
             resetCounts();
 
@@ -225,10 +229,41 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
 //            ft.commit();
             // todo something else
         } else {
+            // Continue button pressed.
             // todo continue with something
         }
         ft.replace(R.id.main_container, mMainFragment);
         ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    @Override
+    public void newSurveyTime(boolean newSurvey) {
+        if (newSurvey) {
+            SurveyActivity newSurveyFragment = SurveyActivity.newInstance();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.main_container, newSurveyFragment);
+            // todo backstack?
+            ft.commit();
+        }
+    }
+
+    @Override
+    public void newSurveyCreated(String[] newSurvey) {
+        question = newSurvey[0];
+        option1 = newSurvey[1];
+        option2 = newSurvey[2];
+        resetCounts();
+        // todo load main fragment but with new values
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        Bundle bundle = new Bundle();
+        bundle.putStringArray(NEW_SURVEY_KEY, newSurvey);
+        mMainFragment.setArguments(bundle);
+
+        ft.replace(R.id.main_container, mMainFragment);
         ft.commit();
     }
 }

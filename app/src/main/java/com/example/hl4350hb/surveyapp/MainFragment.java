@@ -16,6 +16,7 @@ import android.widget.TextView;
 public class MainFragment extends Fragment {
 
     private MainScreenListener mMainScreenListener;
+    private MainScreenListener2 mMainScreenListener2;
 
     @Override
     public void onAttach(Context context) {
@@ -23,6 +24,7 @@ public class MainFragment extends Fragment {
         if (context instanceof MainScreenListener) {
             // Stores reference to main activity.
             mMainScreenListener = (MainScreenListener) context;
+            mMainScreenListener2 = (MainScreenListener2) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement MainScreenListener");
         }
@@ -36,6 +38,16 @@ public class MainFragment extends Fragment {
         Button mYesButton = (Button) view.findViewById(R.id.yes_button);
         Button mNoButton = (Button) view.findViewById(R.id.no_button);
         Button mNewButton = (Button) view.findViewById(R.id.create_button);
+
+
+// todo add bundle check here???
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            String[] surveyStrings = bundle.getStringArray(MainActivity.NEW_SURVEY_KEY);
+            surveyQuestion.setText(surveyStrings[0]);
+            mYesButton.setText(surveyStrings[1]);
+            mNoButton.setText(surveyStrings[2]);
+        }
 
         // Yes button event listener.
         mYesButton.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +67,7 @@ public class MainFragment extends Fragment {
         mNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mMainScreenListener2.newSurveyTime(true);
             }
         });
 
@@ -64,6 +76,10 @@ public class MainFragment extends Fragment {
 
     public interface MainScreenListener {
         void surveyAnswered(boolean firstAnswer);
+    }
+
+    public interface MainScreenListener2 {
+        void newSurveyTime(boolean newSurvey);
     }
 
     public static MainFragment newInstance() {
