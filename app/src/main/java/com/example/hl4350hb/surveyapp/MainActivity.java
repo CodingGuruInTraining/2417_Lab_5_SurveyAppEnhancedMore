@@ -158,8 +158,12 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
         Bundle bundle = new Bundle();
         bundle.putInt(YES_KEY, yesCount);
         bundle.putInt(NO_KEY, noCount);
-        bundle.putString(OPT1_KEY, option1);
-        bundle.putString(OPT2_KEY, option2);
+        // Checks if a new survey has been made yet and would have
+        // custom options.
+        if (option1 != null && option2 != null) {
+            bundle.putString(OPT1_KEY, option1);
+            bundle.putString(OPT2_KEY, option2);
+        }
 
         // Instantiates new Results fragment object.
         ResultsActivity resultsFragment = ResultsActivity.newInstance();

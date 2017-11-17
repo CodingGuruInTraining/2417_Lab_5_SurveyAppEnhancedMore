@@ -49,7 +49,7 @@ public class ResultsActivity extends Fragment {
         // correct options and results.
         String yesText;
         String noText;
-        if (option1.equals("") || option2.equals("")) {
+        if (option1 == null || option2 == null) {
             // Default options (Yes and No):
             yesText = "Total Yes's: " + yesCount;
             noText = "Total No's: " + noCount;
@@ -95,8 +95,12 @@ public class ResultsActivity extends Fragment {
         if (bundle != null) {
             yesCount = bundle.getInt(MainActivity.YES_KEY, 0);
             noCount = bundle.getInt(MainActivity.NO_KEY, 0);
-            option1 = bundle.getString(MainActivity.OPT1_KEY);
-            option2 = bundle.getString(MainActivity.OPT2_KEY);
+            try {
+                option1 = bundle.getString(MainActivity.OPT1_KEY);
+                option2 = bundle.getString(MainActivity.OPT2_KEY);
+            } catch (NullPointerException err) {
+                err.fillInStackTrace();
+            }
         }
     }
 
