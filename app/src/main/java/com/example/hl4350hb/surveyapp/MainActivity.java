@@ -187,7 +187,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
         Bundle bundle = new Bundle();
         bundle.putInt(YES_KEY, yesCount);
         bundle.putInt(NO_KEY, noCount);
-        // todo add options here too ^
+        bundle.putString(OPT1_KEY, option1);
+        bundle.putString(OPT2_KEY, option2);
 
 
         ResultsActivity resultsFragment = ResultsActivity.newInstance();

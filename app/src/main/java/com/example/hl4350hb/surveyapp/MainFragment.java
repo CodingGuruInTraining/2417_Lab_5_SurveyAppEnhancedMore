@@ -40,7 +40,6 @@ public class MainFragment extends Fragment {
         Button mNewButton = (Button) view.findViewById(R.id.create_button);
 
 
-// todo add bundle check here???
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             String[] surveyStrings = bundle.getStringArray(MainActivity.NEW_SURVEY_KEY);

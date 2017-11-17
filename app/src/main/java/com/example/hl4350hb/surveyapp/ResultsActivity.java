@@ -28,6 +28,8 @@ public class ResultsActivity extends Fragment {
     private static int yesCount;
     private static int noCount;
     private static String question;
+    private static String option1;
+    private static String option2;
 
 
 
@@ -55,8 +57,17 @@ public class ResultsActivity extends Fragment {
         Button contBtn = (Button) view.findViewById(R.id.continue_button);
 
 // todo make dynamic once passing option values
-        yesView.setText("Total Yes's: " + yesCount);
-        noView.setText("Total No's: " + noCount);
+        String yesText;
+        String noText;
+        if (option1.equals("") || option2.equals("")) {
+            yesText = "Total Yes's: " + yesCount;
+            noText = "Total No's: " + noCount;
+        } else {
+            yesText = "Total " + option1 + "'s: " + yesCount;
+            noText = "Total " + option2 + "'s: " + noCount;
+        }
+        yesView.setText(yesText);
+        noView.setText(noText);
 
 
         resetBtn.setOnClickListener(new View.OnClickListener() {
@@ -105,8 +116,10 @@ public class ResultsActivity extends Fragment {
     private void retrieveValues() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            yesCount = bundle.getInt(YES_KEY, 0);
-            noCount = bundle.getInt(NO_KEY, 0);
+            yesCount = bundle.getInt(MainActivity.YES_KEY, 0);
+            noCount = bundle.getInt(MainActivity.NO_KEY, 0);
+            option1 = bundle.getString(MainActivity.OPT1_KEY);
+            option2 = bundle.getString(MainActivity.OPT2_KEY);
         }
     }
 
