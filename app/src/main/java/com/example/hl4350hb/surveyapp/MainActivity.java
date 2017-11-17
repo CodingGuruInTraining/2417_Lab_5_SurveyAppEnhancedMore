@@ -13,7 +13,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.MainScreenListener,
         ResultsActivity.ResultScreenListener,
-        MainFragment.MainScreenListener2, SurveyActivity.NewSurveyScreenListener {
+        MainFragment.MainScreenListener2,
+        SurveyActivity.NewSurveyScreenListener {
 
     // Initialize static variables.
     Integer yesCount;
@@ -31,10 +32,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
     private static final String MAIN_FRAG_TAG = "MAIN FRAGMENT";
     private static final String RESULT_FRAG_TAG = "RESULTS FRAGMENT";
 
-    // Static variables for result keys.
-    private static final int RESULT_REQUEST_CODE = 0;
-    private static final int SURVEY_REQUEST_CODE = 1;
-
+    // Static variable to hold main fragment object.
     protected MainFragment mMainFragment;
 
     @Override
@@ -51,16 +49,12 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
             // Instantiates fragment.
             mMainFragment = MainFragment.newInstance();
 
-
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
 
             // Adds fragment to activity to be seen.
             ft.add(R.id.main_container, mMainFragment, MAIN_FRAG_TAG);
             ft.commit();
-
-
-
         }
         // Sets values if null.
         if (yesCount == null) {
@@ -69,43 +63,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
         if (noCount == null) {
             noCount = 0;
         }
-
-//        // References widgets.
-//        mQuestionLabel = (TextView) findViewById(R.id.survey_questions);
-//        mYesButton = (Button) findViewById(R.id.yes_button);
-//        mNoButton = (Button) findViewById(R.id.no_button);
-//        mNewButton = (Button) findViewById(R.id.create_button);
-//
-//        // Yes button event listener.
-//        mYesButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Updates counter.
-//                yesCount++;
-//                // Redirects to ResultActivity.
-//                sendIntent();
-//            }
-//        });
-//
-//        // No button event listener.
-//        mNoButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Updates counter.
-//                noCount++;
-//                // Redirects to ResultActivity.
-//                sendIntent();
-//            }
-//        });
-//
-//        mNewButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Creates Intent for SurveyActivity.
-//                Intent launchSurvey = new Intent(MainActivity.this, SurveyActivity.class);
-//                startActivityForResult(launchSurvey, SURVEY_REQUEST_CODE);
-//            }
-//        });
     }
 
     // Bundle saver.
@@ -116,58 +73,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
         outBundle.putInt(NO_KEY, noCount);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        // First checks whether a good result code was returned.
-//        if (resultCode == RESULT_OK) {
-//            // Checks which request code was received and responds accordingly.
-//            if (requestCode == RESULT_REQUEST_CODE) {   // ResultActivity
-//                // Gets boolean from Extra that tells if to continue with current survey.
-//                boolean decision = data.getBooleanExtra(ResultsActivity.EXTRA_FROM_RESULT, false);
-//                if (decision) {
-//                    // TODO maybe do something?
-//                } else {
-//                    // Resets the counter variables.
-//                    resetCounts();
-//                }
-//            } else if (requestCode == SURVEY_REQUEST_CODE) {    // SurveyActivity
-//                // Retrieves string variables from Extra.
-//                question = data.getStringExtra(SurveyActivity.EXTRA_FROM_SURVEY_QUESTION);
-//                option1 = data.getStringExtra(SurveyActivity.EXTRA_FROM_SURVEY_OPT1);
-//                option2 = data.getStringExtra(SurveyActivity.EXTRA_FROM_SURVEY_OPT2);
-//                // Sets the text value of the widgets.
-//                mQuestionLabel.setText(question);
-//                mYesButton.setText(option1);
-//                mNoButton.setText(option2);
-//                // Rests counter variables since this is now a new survey.
-//                resetCounts();
-//            }
-//        }
-//    }
-
-    private void sendIntent() {
-        // Creates new Intent for ResultActivity.
-        Intent launchResults = new Intent(MainActivity.this, ResultsActivity.class);
-        // Adds counters and button values to Extras.
-        launchResults.putExtra(YES_KEY, yesCount);
-        launchResults.putExtra(NO_KEY, noCount);
-        launchResults.putExtra(OPT1_KEY, option1);
-        launchResults.putExtra(OPT2_KEY, option2);
-        // Launches the ResultActivity.
-        startActivityForResult(launchResults, RESULT_REQUEST_CODE);
-    }
-
-    private void resetCounts() {
-        // Resets counters.
-        yesCount = 0;
-        noCount = 0;
-    }
-
-//    // Needed method to run.
-//    @Override
-//    public void mainLoaded() {
-//
-//    }
 
     // Returning function from Main fragment.
     @Override
@@ -177,94 +82,97 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
         } else {
             noCount++;
         }
-
         loadResultsFragment();
-    }
-
-    private void loadResultsFragment() {
-
-
-        Bundle bundle = new Bundle();
-        bundle.putInt(YES_KEY, yesCount);
-        bundle.putInt(NO_KEY, noCount);
-        bundle.putString(OPT1_KEY, option1);
-        bundle.putString(OPT2_KEY, option2);
-
-
-        ResultsActivity resultsFragment = ResultsActivity.newInstance();
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        resultsFragment.setArguments(bundle);
-
-//        ft.remove(mMainFragment);
-//        ft.remove(mMainFragment);
-//        ft.commit();
-//        ft.replace(R.id.main_container, resultsFragment);
-//        ft.add(R.id.results_container, resultsFragment, RESULT_FRAG_TAG);
-
-//        resultsFragment = ResultsActivity.newInstance();
-//        resultsFragment.setArguments(bundle);
-
-        ft.replace(R.id.main_container, resultsFragment);
-
-//        ft.add(android.R.id.content, resultsFragment);
-        ft.addToBackStack(RESULT_FRAG_TAG);
-        ft.commit();
     }
 
     // Returning function from Results fragment.
     @Override
     public void resetSurvey(boolean resetCounts) {
-
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
         // Reset the scores.
         if (resetCounts) {
             resetCounts();
-
-//            mMainFragment = MainFragment.newInstance();
-
-//            ft.replace(R.id.main_container, mMainFragment);
-//            ft.addToBackStack(null);
-//            ft.commit();
-            // todo something else
-        } else {
-            // Continue button pressed.
-            // todo continue with something
         }
+        // Loads main fragment.
         ft.replace(R.id.main_container, mMainFragment);
         ft.addToBackStack(null);
         ft.commit();
     }
 
+    // Returning function from Main fragment (New Survey button).
     @Override
     public void newSurveyTime(boolean newSurvey) {
         if (newSurvey) {
+            // Instantiates new Survey fragment object.
             SurveyActivity newSurveyFragment = SurveyActivity.newInstance();
+
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
+
+            // Replaces fragments.
             ft.replace(R.id.main_container, newSurveyFragment);
-            // todo backstack?
             ft.commit();
         }
     }
 
+    // Returning function from Survey fragment.
     @Override
     public void newSurveyCreated(String[] newSurvey) {
+        // Retrieves passed string values and updates global variables
+        // with these strings.
         question = newSurvey[0];
         option1 = newSurvey[1];
         option2 = newSurvey[2];
+        // Resets the counts since this is now a new survey.
         resetCounts();
-        // todo load main fragment but with new values
+
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
+        // Creates new bundle object and attaches new survey strings
+        // to the main fragment.
         Bundle bundle = new Bundle();
         bundle.putStringArray(NEW_SURVEY_KEY, newSurvey);
         mMainFragment.setArguments(bundle);
 
+        // Replaces fragments.
         ft.replace(R.id.main_container, mMainFragment);
+        ft.commit();
+    }
+
+
+
+    // Custom method to reset counters.
+    private void resetCounts() {
+        // Resets counters.
+        yesCount = 0;
+        noCount = 0;
+    }
+
+    // Custom method to load the Results fragment.
+    private void loadResultsFragment() {
+        // Creates new bundle and adds the current counts
+        // and the current option strings.
+        Bundle bundle = new Bundle();
+        bundle.putInt(YES_KEY, yesCount);
+        bundle.putInt(NO_KEY, noCount);
+        bundle.putString(OPT1_KEY, option1);
+        bundle.putString(OPT2_KEY, option2);
+
+        // Instantiates new Results fragment object.
+        ResultsActivity resultsFragment = ResultsActivity.newInstance();
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        // Attaches bundle to fragment object.
+        resultsFragment.setArguments(bundle);
+
+        // Replaces fragments.
+        ft.replace(R.id.main_container, resultsFragment);
+        ft.addToBackStack(RESULT_FRAG_TAG);
         ft.commit();
     }
 }
