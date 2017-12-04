@@ -16,9 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ResultsActivity">
+        <activity android:name=".ResultsFragment">
         </activity>
-        <activity android:name=".SurveyActivity">
+        <activity android:name=".EditSurveyFragment">
         </activity>
     </application>
 

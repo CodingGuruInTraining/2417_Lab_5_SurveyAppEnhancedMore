@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-public class ResultsActivity extends Fragment {
+public class ResultsFragment extends Fragment {
 
     // Global variable to hold listener.
     private ResultScreenListener mResultScreenListener;
@@ -85,8 +85,8 @@ public class ResultsActivity extends Fragment {
     }
 
     // newInstance method.
-    public static ResultsActivity newInstance() {
-        return new ResultsActivity();
+    public static ResultsFragment newInstance() {
+        return new ResultsFragment();
     }
 
     // Custom method to retrieve values from attached bundle.
