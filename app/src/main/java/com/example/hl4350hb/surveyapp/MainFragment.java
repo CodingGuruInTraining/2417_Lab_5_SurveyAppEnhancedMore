@@ -15,7 +15,6 @@ public class MainFragment extends Fragment {
 
     // Global variables to hold listeners.
     private MainScreenListener mMainScreenListener;
-    private MainScreenListener2 mMainScreenListener2;
 
     @Override
     public void onAttach(Context context) {
@@ -23,7 +22,6 @@ public class MainFragment extends Fragment {
         if (context instanceof MainScreenListener) {
             // Stores reference to main activity.
             mMainScreenListener = (MainScreenListener) context;
-            mMainScreenListener2 = (MainScreenListener2) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement MainScreenListener");
         }
@@ -67,7 +65,7 @@ public class MainFragment extends Fragment {
         mNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMainScreenListener2.newSurveyTime(true);
+                mMainScreenListener.newSurveyTime(true);
             }
         });
 
@@ -75,14 +73,12 @@ public class MainFragment extends Fragment {
     }
 
     // Interface for transmitting survey results back to MainActivity.
+    // An interface may declare as many methods as needed.
     public interface MainScreenListener {
         void surveyAnswered(boolean firstAnswer);
-    }
-
-    // Interface for transmitting New Survey prompt to MainActivity.
-    public interface MainScreenListener2 {
         void newSurveyTime(boolean newSurvey);
     }
+
 
     // newInstance method.
     public static MainFragment newInstance() {

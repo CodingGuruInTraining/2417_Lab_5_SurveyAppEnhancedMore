@@ -1,9 +1,7 @@
 package com.example.hl4350hb.surveyapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class SurveyActivity extends Fragment {
+public class EditSurveyFragment extends Fragment {
 
     // Global variable to hold listener.
     private NewSurveyScreenListener mNewSurveyScreenListener;
@@ -66,7 +64,7 @@ public class SurveyActivity extends Fragment {
     }
 
     // newInstance method.
-    public static SurveyActivity newInstance() {
-        return new SurveyActivity();
+    public static EditSurveyFragment newInstance() {
+        return new EditSurveyFragment();
     }
 }

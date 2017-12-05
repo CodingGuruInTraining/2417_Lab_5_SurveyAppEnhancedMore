@@ -2,19 +2,14 @@
 //
 package com.example.hl4350hb.surveyapp;
 
-import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.MainScreenListener,
-        ResultsActivity.ResultScreenListener,
-        MainFragment.MainScreenListener2,
-        SurveyActivity.NewSurveyScreenListener {
+        ResultsFragment.ResultScreenListener,
+        EditSurveyFragment.NewSurveyScreenListener {
 
     // Initialize static variables.
     Integer yesCount;
@@ -74,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
     }
 
 
-    // Returning function from Main fragment.
+    // Returning function from Main  (Giving the survey) fragment.
     @Override
     public void surveyAnswered(boolean firstAnswer) {
         if (firstAnswer) {
@@ -106,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
     public void newSurveyTime(boolean newSurvey) {
         if (newSurvey) {
             // Instantiates new Survey fragment object.
-            SurveyActivity newSurveyFragment = SurveyActivity.newInstance();
+            EditSurveyFragment newSurveyFragment = EditSurveyFragment.newInstance();
 
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
@@ -166,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Main
         }
 
         // Instantiates new Results fragment object.
-        ResultsActivity resultsFragment = ResultsActivity.newInstance();
+        ResultsFragment resultsFragment = ResultsFragment.newInstance();
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
